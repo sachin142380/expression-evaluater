@@ -1,0 +1,269 @@
+/* ---- RESET & BASE ---- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #f5f5f0;
+  color: #1a1a1a;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* ---- CONTAINER ---- */
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid #e0e0d8;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* ---- INPUT ROW ---- */
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.input-row input {
+  flex: 1;
+  font-size: 15px;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-family: monospace;
+  transition: border-color 0.2s;
+}
+
+.input-row input:focus {
+  border-color: #7F77DD;
+}
+
+.input-row button {
+  padding: 10px 20px;
+  background: #7F77DD;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.input-row button:hover {
+  background: #534AB7;
+}
+
+/* ---- ERROR BOX ---- */
+.error-box {
+  background: #fff0f0;
+  border: 1px solid #ffaaaa;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #cc0000;
+  margin-bottom: 12px;
+}
+
+.hidden { display: none !important; }
+
+/* ---- TOKENS ---- */
+.sec-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.tokens-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 40px;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Each token chip */
+.token {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: monospace;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+/* Token types have different colors */
+.tok-num   { background: #EEEDFE; border-color: #AFA9EC; color: #3C3489; }
+.tok-op    { background: #FAEEDA; border-color: #EF9F27; color: #633806; }
+.tok-paren { background: #E1F5EE; border-color: #5DCAA5; color: #085041; }
+
+/* Highlighted token (currently being processed) */
+.tok-active {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px #7F77DD;
+}
+
+/* ---- PHASE BADGE ---- */
+.phase-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.phase-infix { background: #FAEEDA; color: #633806; }
+.phase-eval  { background: #E1F5EE; color: #085041; }
+
+/* ---- TWO PANELS (stack + output) ---- */
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.panel {
+  background: #f8f8f5;
+  border: 1px solid #e8e8e0;
+  border-radius: 12px;
+  padding: 14px;
+  min-height: 140px;
+}
+
+.panel-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* Stack visual — column-reverse means items grow UPWARD like a real stack */
+.stack-vis {
+  display: flex;
+  flex-direction: column-reverse; /* KEY: new items appear at TOP */
+  gap: 5px;
+  min-height: 100px;
+}
+
+/* Stack items (smaller than tokens) */
+.stack-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid;
+  animation: popIn 0.2s ease;
+}
+
+.si-num { background: #EEEDFE; border-color: #AFA9EC; color: #3C3489; }
+.si-op  { background: #FAEEDA; border-color: #EF9F27; color: #633806; }
+
+@keyframes popIn {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+/* Output queue items */
+.output-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* ---- STEP LOG ---- */
+.step-log {
+  background: #f8f8f5;
+  border: 1px solid #e8e8e0;
+  border-radius: 12px;
+  padding: 12px;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  font-size: 13px;
+}
+
+.log-entry {
+  padding: 3px 0;
+  color: #555;
+  border-bottom: 1px solid #eee;
+  line-height: 1.5;
+}
+
+.log-entry:last-child { border-bottom: none; }
+.log-entry .op  { color: #534AB7; font-weight: 600; }
+.log-entry .num { color: #085041; font-weight: 600; }
+
+/* ---- CONTROLS ---- */
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.controls button {
+  flex: 1;
+  padding: 9px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.controls button:hover    { background: #f0f0ec; }
+.controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ---- RESULT BOX ---- */
+.result-box {
+  background: #EEEDFE;
+  border: 1px solid #AFA9EC;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.result-label { font-size: 12px; color: #534AB7; margin-bottom: 4px; }
+.result-num   { font-size: 32px; font-weight: 600; color: #3C3489; }
+.postfix-str  {
+  font-size: 13px;
+  color: #534AB7;
+  font-family: monospace;
+  margin-top: 6px;
+}
